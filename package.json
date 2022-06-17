@@ -1,0 +1,14 @@
+{
+  "name": "todo-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev:db:down": "docker-compose down",
+    "dev:db:reset": "yarn dev:db:down && yarn dev:db:up && yarn api migration:latest",
+    "dev:db:up": "docker-compose up -d"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

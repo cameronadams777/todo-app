@@ -1,0 +1,23 @@
+version: "3"
+
+services:
+  database:
+    image: "postgres" # use latest official postgres version
+    restart: "no"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: hzKD2b#KXk!hhseB=+U7P?A?
+      POSTGRES_DB: todoapp_db
+    networks:
+      - db_network
+    volumes:
+      - database-data:/var/lib/postgres/data/ # persist data even if container shuts down
+    ports:
+      - "5432:5432"
+
+networks:
+  db_network:
+    driver: bridge
+
+volumes:
+  database-data:
