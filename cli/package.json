@@ -1,0 +1,13 @@
+{
+  "name": "cli",
+  "version": "0.0.1",
+  "description": "A cli tool for interacting with the todo api 👾",
+  "bin": "dist/index.js",
+  "scripts": {
+    "build": "tsc ."
+  },
+  "author": "Cameron Adams <cameron.adams@hey.com>",
+  "devDependencies": {
+    "typescript": "^4.7.3"
+  }
+}
