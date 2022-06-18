@@ -67,7 +67,7 @@ func main() {
 
 		db.Create(&todo)
 
-		c.JSON(http.StatusOK, todo)
+		c.JSON(http.StatusCreated, todo)
 	})
 
 	router.Run(":5000")
