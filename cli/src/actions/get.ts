@@ -3,8 +3,8 @@ import colors from "colors";
 
 const getAllTodoItems = async (): Promise<void> => {
   try {
-    const { data } = await axios.get("http://localhost:5000/todos");
-    console.log(data);
+    const response = await axios.get("http://localhost:5000/todos");
+    console.log(response.data);
   } catch (error) {
     console.error(
       colors.red(
@@ -16,8 +16,8 @@ const getAllTodoItems = async (): Promise<void> => {
 
 const getTodoItemById = async (id: string): Promise<void> => {
   try {
-    const { data } = await axios.get(`http://localhost:5000/todos/${id}`);
-    console.log(data);
+    const response = await axios.get(`http://localhost:5000/todos/${id}`);
+    console.log(response.data);
   } catch (error) {
     console.error(
       colors.red(
