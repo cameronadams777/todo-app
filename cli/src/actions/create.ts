@@ -14,16 +14,13 @@ export const createTodo = async (args: Record<string, any>) => {
   try {
     const spinner = ora("Creating todo...").start();
 
-    const { status, data } = await axios.post(
-      "http://localhost:5000/todos",
-      args.body
-    );
+    const response = await axios.post("http://localhost:5000/todos", args.body);
 
-    if (status === 201) spinner.prefixText = colors.green("CREATED");
+    if (response.status === 201) spinner.prefixText = colors.green("CREATED");
     else spinner.prefixText = colors.red("FAILED");
 
     spinner.stopAndPersist();
-    console.log(colors.green(data.data));
+    console.log(colors.green(response.data));
   } catch (error) {
     console.error(
       colors.red(
