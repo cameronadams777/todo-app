@@ -43,31 +43,45 @@ func main() {
 		c.JSON(http.StatusOK, todos)
 	})
 
-	router.GET("/todo/:id", func(c *gin.Context) {
+	router.GET("/todos/:id", func(c *gin.Context) {
 		id := c.Param("id")
 		var todo Todo
 		db.First(&todo, id)
 		c.JSON(http.StatusOK, todo)
 	})
 
-	router.POST("/todo", func(c *gin.Context) {
-		var createTodoInput struct {
+	router.POST("/todos", func(c *gin.Context) {
+		var createTodosInput struct {
 			UserID      int    `json:"userId" binding:"required"`
 			Title       string `json:"title" binding:"required"`
 			Description string `json:"description" binding:"-"`
 		}
 
-		c.BindJSON(&createTodoInput)
+		c.BindJSON(&createTodosInput)
 
 		todo := Todo{
-			Title:       createTodoInput.Title,
-			Description: createTodoInput.Description,
-			UserID:      createTodoInput.UserID,
+			Title:       createTodosInput.Title,
+			Description: createTodosInput.Description,
+			UserID:      createTodosInput.UserID,
 		}
 
 		db.Create(&todo)
 
 		c.JSON(http.StatusCreated, todo)
+	})
+
+	router.POST("/todos/complete", func(c *gin.Context) {
+		var completeTodosInput struct {
+			IDS []int `json:"ids" binding:"required"`
+		}
+
+		c.BindJSON(&completeTodosInput)
+
+		for _, id := range completeTodosInput.IDS {
+			db.Model(&Todo{}).Where("id = ?", id).Update("completedAt", time.Now())
+		}
+
+		c.JSON(http.StatusOK, gin.H{})
 	})
 
 	router.Run(":5000")
