@@ -5,6 +5,7 @@ import (
 
 	"github.com/cameronadams777/todo-app/controllers"
 	"github.com/cameronadams777/todo-app/database"
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
 
@@ -13,6 +14,8 @@ func main() {
 	database.ConnectDB()
 
 	router := gin.Default()
+
+	router.Use(cors.New(cors.DefaultConfig())) // TODO: Configure this later to lock it down better
 
 	router.GET("/health", func(c *gin.Context) {
 		var response struct {
