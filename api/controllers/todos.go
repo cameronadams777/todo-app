@@ -44,14 +44,12 @@ func CreateNewTodo(c *gin.Context) {
 
 func CompleteTodo(c *gin.Context) {
 	var completeTodosInput struct {
-		IDS []int `json:"ids" binding:"required"`
+		ID int `json:"id" binding:"required"`
 	}
 
 	c.BindJSON(&completeTodosInput)
 
-	for _, id := range completeTodosInput.IDS {
-		database.DB.Model(&models.Todo{}).Where("id = ?", id).Update("completedAt", time.Now())
-	}
+	database.DB.Model(&models.Todo{}).Where("id = ?", completeTodosInput.ID).Update("completedAt", time.Now())
 
 	c.JSON(http.StatusOK, gin.H{})
 }

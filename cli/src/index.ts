@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import { program } from "commander";
 import pkg from "../package.json";
+import { completeTodos } from "./actions/complete";
 import { createTodo } from "./actions/create";
 import { getTodo } from "./actions/get";
 
@@ -16,5 +17,10 @@ program
   .option("-a, --all", "whether to get all todo items or not", true)
   .option("-i, --id", "the specific id of the todo item we want to get")
   .action(getTodo);
+
+program
+  .command("complete")
+  .option("-i, --ids", "list of comma separated ids to complete")
+  .action(completeTodos);
 
 program.parse();
