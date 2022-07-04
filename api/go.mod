@@ -1,4 +1,4 @@
-module github.com/cameronadams777/todo-app
+module api
 
 go 1.18
 

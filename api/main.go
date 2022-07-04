@@ -1,10 +1,11 @@
 package main
 
 import (
+	"api/database"
+	"api/router"
+
 	"net/http"
 
-	"github.com/cameronadams777/todo-app/controllers"
-	"github.com/cameronadams777/todo-app/database"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
@@ -13,11 +14,11 @@ func main() {
 
 	database.ConnectDB()
 
-	router := gin.Default()
+	app := gin.Default()
 
-	router.Use(cors.New(cors.DefaultConfig())) // TODO: Configure this later to lock it down better
+	app.Use(cors.New(cors.DefaultConfig())) // TODO: Configure this later to lock it down better
 
-	router.GET("/health", func(c *gin.Context) {
+	app.GET("/health", func(c *gin.Context) {
 		var response struct {
 			Health string
 		}
@@ -25,10 +26,7 @@ func main() {
 		c.JSON(http.StatusOK, response)
 	})
 
-	router.GET("/todos", controllers.GetAllTodos)
-	router.GET("/todos/:id", controllers.GetTodoById)
-	router.POST("/todos", controllers.CreateNewTodo)
-	router.POST("/todos/complete", controllers.CompleteTodo)
+	router.SetupRouter(app)
 
-	router.Run(":5000")
+	app.Run(":5000")
 }
