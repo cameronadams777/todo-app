@@ -9,6 +9,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// TODO: Paginate this request
 func GetAllTodos(c *gin.Context) {
 	var todos []models.Todo
 	database.DB.Find(&todos)

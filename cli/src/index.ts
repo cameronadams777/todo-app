@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import { program } from "commander";
 import pkg from "../package.json";
-import { completeTodos } from "./actions/complete";
+import { completeTodo } from "./actions/complete";
 import { createTodo } from "./actions/create";
 import { getTodo } from "./actions/get";
 
@@ -9,7 +9,8 @@ program.name("todos").description(pkg.description).version(pkg.version);
 
 program
   .command("create")
-  .option("-b, --body <body>", "the todo object to be created")
+  .option("-t, --title <title>", "the title of the todo item to be created")
+  .option("-u, --userId <userId>", "the id of the user creating the todo item")
   .action(createTodo);
 
 program
@@ -21,6 +22,6 @@ program
 program
   .command("complete")
   .option("-i, --ids", "list of comma separated ids to complete")
-  .action(completeTodos);
+  .action(completeTodo);
 
 program.parse();
