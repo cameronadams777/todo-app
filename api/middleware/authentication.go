@@ -2,18 +2,17 @@ package middleware
 
 import (
 	"api/config"
+	"api/structs"
+
 	"fmt"
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v4"
 )
 
 const BEARER_PREFIX = "Bearer "
-
-type AuthScope struct {
-	userId string
-}
 
 func Protected() gin.HandlerFunc {
 	return func(c *gin.Context) {
@@ -34,16 +33,13 @@ func Protected() gin.HandlerFunc {
 			return []byte(config.Config("AUTH_TOKEN_SECRET")), nil
 		})
 
-		fmt.Println("Token:", token)
-		fmt.Println("Token Valid:", token.Valid)
-
 		claims := token.Claims.(jwt.MapClaims)
 
-		fmt.Println("Claims", claims["exp"])
+		userId, _ := strconv.Atoi(claims["iss"].(string))
 
 		if token.Valid {
-			authScope := AuthScope{
-				userId: claims["iss"].(string),
+			authScope := structs.AuthScope{
+				UserID: userId,
 			}
 			c.Set("authScope", authScope)
 			c.Next()
