@@ -1,9 +1,9 @@
 package database
 
 import (
+	"api/models"
 	"fmt"
 
-	"github.com/cameronadams777/todo-app/models"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -21,6 +21,6 @@ func ConnectDB() {
 	DB = database
 
 	fmt.Println("Connection Opened to Database")
-	DB.AutoMigrate(&models.Todo{})
+	DB.AutoMigrate(&models.Todo{}, &models.User{})
 	fmt.Println("Database Migrated")
 }

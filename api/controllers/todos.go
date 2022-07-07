@@ -1,11 +1,12 @@
 package controllers
 
 import (
+	"api/database"
+	"api/models"
+
 	"net/http"
 	"time"
 
-	"github.com/cameronadams777/todo-app/database"
-	"github.com/cameronadams777/todo-app/models"
 	"github.com/gin-gonic/gin"
 )
 
@@ -52,5 +53,9 @@ func CompleteTodo(c *gin.Context) {
 
 	database.DB.Model(&models.Todo{}).Where("id = ?", completeTodosInput.ID).Update("completedAt", time.Now())
 
-	c.JSON(http.StatusOK, gin.H{})
+	var completedTodo models.Todo
+
+	database.DB.First(&completedTodo, completeTodosInput.ID)
+
+	c.JSON(http.StatusOK, gin.H{"status": "success", "message": "Todo item completed.", "data": completedTodo})
 }
