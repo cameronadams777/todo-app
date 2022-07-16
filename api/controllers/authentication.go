@@ -4,6 +4,7 @@ import (
 	"api/config"
 	"api/database"
 	"api/models"
+	"fmt"
 
 	"net/http"
 	"strconv"
@@ -23,6 +24,7 @@ func Login(c *gin.Context) {
 	var input LoginInput
 
 	if err := c.BindJSON(&input); err != nil {
+		fmt.Println(err)
 		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"status": "error", "message": "Error on login request.", "data": err})
 		return
 	}
@@ -37,6 +39,7 @@ func Login(c *gin.Context) {
 	}
 
 	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(input.Password)); err != nil {
+		fmt.Println(err)
 		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"status": "error", "error": "Incorrect email and password combination."})
 		return
 	}
@@ -52,6 +55,7 @@ func Login(c *gin.Context) {
 	token, err := claims.SignedString([]byte(config.Config("AUTH_TOKEN_SECRET")))
 
 	if err != nil {
+		fmt.Println(err)
 		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"status": "error", "message": "Error on login request.", "data": err})
 		return
 	}
@@ -120,5 +124,10 @@ func Register(c *gin.Context) {
 
 	c.SetCookie("ucid", token, int(expirationTime.Unix()), "", "", false, true)
 
-	c.JSON(http.StatusOK, gin.H{"status": "success", "message": "User registered", "data": token})
+	c.JSON(http.StatusOK, gin.H{"status": "success", "message": "User registered", "data": gin.H{
+		"token":     token,
+		"firstName": input.FirstName,
+		"lastName":  input.LastName,
+		"email":     input.Email,
+	}})
 }

@@ -6,6 +6,7 @@ import (
 
 	"net/http"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
 
@@ -15,7 +16,7 @@ func main() {
 
 	app := gin.Default()
 
-	// app.Use(cors.New(cors.DefaultConfig())) // TODO: Configure this later to lock it down better
+	app.Use(cors.Default()) // TODO: Configure this later to lock it down better
 
 	app.GET("/health", func(c *gin.Context) {
 		var response struct {
