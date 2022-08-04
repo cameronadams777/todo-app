@@ -28,11 +28,32 @@ const onSubmit = async () => {
 </script>
 
 <template>
-  <input v-model="firstName" type="text" placeholder="First Name" />
-  <input v-model="lastName" type="text" placeholder="Last Name" />
-  <input v-model="email" type="email" placeholder="Email"/>
-  <input v-model="password" type="password" placeholder="Password"/>
-  <input v-model="passwordConfirmation" type="password" placeholder="Confirm Password"/>
-  <button @click="onSubmit">Submit</button>
-  <span>{{registrationData}}</span>
+  <div class="w-full h-full flex flex-col justify-center items-center">
+    <h2>Nice to meet you!</h2>
+    <div class="w-1/3 flex flex-col">
+      <div class="text-sm font-bold mb-2 flex flex-col">
+        <label for="firstName">First Name</label>
+        <input v-model="firstName" id="firstName" name="firstName" type="text" class="p-1"/>
+      </div>
+      <div class="text-sm font-bold mb-2 flex flex-col">
+        <label for="lastName">Last Name</label>
+        <input v-model="lastName" id="lastName" name="lastName" type="text" class="p-1"/>
+      </div>
+      <div class="text-sm font-bold mb-2 flex flex-col">
+        <label for="email">Email</label>
+        <input v-model="email" id="email" name="email" type="email" class="p-1"/>
+      </div>
+      <div class="text-sm font-bold mb-2 flex flex-col">
+        <label for="password">Password</label>
+        <input v-model="password" id="password" name="password" type="password" class="p-1"/>
+      </div>
+      <div class="text-sm font-bold mb-3 flex flex-col">
+        <label for="passwordConfirmation">Confirm Password</label>
+        <input v-model="passwordConfirmation" id="passwordConfirmation" name="passwordConfirmation" type="password" class="p-1"/>
+      </div>
+      <div class="flex justify-center">
+        <button class="w-1/2 p-2 border-none bg-indigo-600 text-white rounded-md" @click="onSubmit">Sign Up</button>
+      </div>
+    </div>
+  </div>
 </template>

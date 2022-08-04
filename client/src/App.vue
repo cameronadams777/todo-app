@@ -1,26 +1,26 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import Login from './pages/Login.vue';
-import Register from './pages/Register.vue';
-
-const currentRoute = ref("login");
-
-const changeRoute = (path: string) => {
-  currentRoute.value = path;
-}
 </script>
 
 <template>
-  <button @click="changeRoute('login')">Login</button>
-  <button @click="changeRoute('register')">Register</button>
-  <Login v-if="currentRoute === 'login'"/>
-  <Register v-else/>
+  <Login />
 </template>
 
 <style>
+html, body {
+  width: 100%;
+  height: 100%;
+}
+
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  width: 100%;
+  height: 100%;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  font-family: "Source Sans Pro"
 }
 </style>
