@@ -1,14 +1,10 @@
-<script setup lang="ts">
-import { ref } from 'vue';
-import Login from './pages/Login.vue';
-</script>
-
 <template>
-  <Login />
+  <router-view></router-view>
 </template>
 
 <style>
-html, body {
+html,
+body {
   width: 100%;
   height: 100%;
 }
@@ -21,6 +17,6 @@ html, body {
 }
 
 * {
-  font-family: "Source Sans Pro"
+  font-family: "Source Sans Pro";
 }
 </style>
