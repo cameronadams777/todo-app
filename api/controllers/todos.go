@@ -4,6 +4,7 @@ import (
 	"api/database"
 	"api/models"
 	"api/structs"
+	"fmt"
 
 	"net/http"
 	"time"
@@ -18,7 +19,7 @@ func GetAllTodos(c *gin.Context) {
 	data, _ := c.Get("authScope")
 	authScope := data.(structs.AuthScope)
 
-	database.DB.First(&todos, "user_id = ?", authScope.UserID)
+	database.DB.Find(&todos, "user_id = ?", authScope.UserID)
 
 	c.JSON(http.StatusOK, todos)
 }
@@ -41,19 +42,25 @@ func GetTodoById(c *gin.Context) {
 }
 
 func CreateNewTodo(c *gin.Context) {
-	var createTodosInput struct {
+	type CreateNewTodoInput struct {
 		Title       string `json:"title" binding:"required"`
 		Description string `json:"description" binding:"-"`
 	}
 
-	c.BindJSON(&createTodosInput)
+	var input CreateNewTodoInput
+
+	if err := c.BindJSON(&input); err != nil {
+		fmt.Println(err)
+		c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"status": "error", "message": "Error on login request.", "data": err})
+		return
+	}
 
 	data, _ := c.Get("authScope")
 	authScope := data.(structs.AuthScope)
 
 	todo := models.Todo{
-		Title:       createTodosInput.Title,
-		Description: createTodosInput.Description,
+		Title:       input.Title,
+		Description: input.Description,
 		UserID:      authScope.UserID,
 	}
 
